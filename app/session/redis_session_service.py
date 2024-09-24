@@ -1,4 +1,4 @@
-from app.infrastructure.sqlite.sqlite_session_repo import SQLiteSessionRepository
+from app.session.redis_session_repo import SQLiteSessionRepository
 from redis import Redis
 
 # 서비스 클래스

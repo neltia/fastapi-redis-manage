@@ -36,13 +36,3 @@ async def update_redis_session(session_id: int, session_name: str, host: str, po
         return ResponseResult(success=True, message="Session updated successfully")
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-
-# Redis 세션에서 키 패턴 검색 엔드포인트
-@router.get("/search", response_model=ResponseResult)
-async def search_redis_keys(pattern: str, session_id: int):
-    try:
-        result = redis_session_service.search_keys(session_id, pattern)
-        return ResponseResult(success=True, data=result)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))

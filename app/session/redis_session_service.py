@@ -1,32 +1,47 @@
 from app.session.redis_session_repo import SQLiteSessionRepository
-from redis import Redis
+from app.infrastructure.common.response_result import ResponseResult
 
-# 서비스 클래스
+# repo
 repository = SQLiteSessionRepository()
 
 
 def get_all_sessions():
-    return repository.get_all()
+    try:
+        data = repository.get_all()
+        result = ResponseResult(result_code=200, data=data, exclude_unset=True)
+    except Exception as e:
+        result = ResponseResult(result_code=500, error_msg=str(e))
+
+    return result
 
 
 def get_session_by_id(session_id: int):
-    return repository.get_by_id(session_id)
+    try:
+        data = repository.get_by_id(session_id)
+    except Exception as e:
+        result = ResponseResult(result_code=500, error_msg=str(e))
+        return result
+
+    if data is None:
+        result = ResponseResult(result_code=404, data=data, exclude_unset=True)
+    else:
+        result = ResponseResult(result_code=200, data=data, exclude_unset=True)
+    return result
 
 
 def update_session(session_id: int, session_name: str, host: str, port: int):
-    session = repository.get_by_id(session_id)
-    if session:
-        session.update_session(session_name, host, port)
-        repository.save(session)
-    else:
-        raise Exception("Session not found")
+    try:
+        session = repository.get_by_id(session_id)
+    except Exception as e:
+        result = ResponseResult(result_code=500, error_msg=str(e))
+        return result
 
+    if not session:
+        result = ResponseResult(result_code=404)
+        return result
 
-def search_keys(session_id: int, pattern: str):
-    session = repository.get_by_id(session_id)
-    if session is None:
-        raise Exception("Session not found")
+    session.update_session(session_name, host, port)
+    repository.save(session)
 
-    redis_client = Redis(host=session.host, port=session.port)
-    keys = redis_client.keys(pattern)
-    return keys
+    result = ResponseResult(result_code=200, result_msg="session updated")
+    return result

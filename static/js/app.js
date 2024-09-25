@@ -3,11 +3,11 @@ window.onload = function() {
 };
 
 function fetchSessions() {
-    fetch("/sessions")
+    fetch("/session/sessions")
         .then(response => response.json())
         .then(data => {
             const sessionSelect = document.getElementById('sessionSelect');
-            data.forEach(session => {
+            data.data.forEach(session => {
                 const option = document.createElement('option');
                 option.value = session.id;
                 option.text = session.session_name;

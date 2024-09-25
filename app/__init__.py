@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.ui.ui_controller import router as ui_rouuter
+from app.ui.ui_controller import router as ui_router
 from fastapi.staticfiles import StaticFiles
 from app.session.redis_session_controller import router as redis_session_router
 from app.search.redis_search_controller import router as redis_search_router
@@ -12,7 +12,7 @@ setup_exception_handlers(app)
 
 # ui
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.include_router(ui_rouuter, prefix="/ui", tags=["UI"])
+app.include_router(ui_router, prefix="/ui", tags=["UI"])
 
 # Redis 라우터 설정 (prefix 및 tags 포함)
 app.include_router(redis_session_router, prefix="/session", tags=["Redis Session"])

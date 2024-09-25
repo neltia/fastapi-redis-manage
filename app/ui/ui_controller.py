@@ -7,7 +7,13 @@ router = APIRouter()
 templates = Jinja2Templates(directory="app/ui/templates")
 
 
-# HTML 파일 렌더링
+# index
 @router.get("/")
-async def render_index(request: Request):
+async def page_index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+
+# sqlite session 관리
+@router.get("/session")
+async def page_session_manage(request: Request):
+    return templates.TemplateResponse("session/list.html", {"request": request})

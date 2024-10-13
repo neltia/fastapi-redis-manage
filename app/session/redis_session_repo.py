@@ -29,6 +29,14 @@ class SQLiteSessionRepository:
         self.connection.execute(query)
         self.connection.commit()
 
+    def add_session(self, session_name: str, host: str, port: int):
+        query = """
+        INSERT INTO redis_sessions (session_name, host, port)
+        VALUES (?, ?, ?)
+        """
+        self.connection.execute(query, (session_name, host, port))
+        self.connection.commit()
+
     def get_all(self):
         # 모든 세션 가져오기
         cursor = self.connection.cursor()

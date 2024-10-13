@@ -6,6 +6,13 @@ from app.session import redis_session_service
 router = APIRouter()
 
 
+# Redis 세션 추가 엔드포인트
+@router.post("/sessions", response_model=ResponseResult)
+async def create_redis_session(session_name: str, host: str, port: int):
+    result = redis_session_service.create_session(session_name, host, port)
+    return result
+
+
 # Redis 세션 목록 조회 엔드포인트
 @router.get("/sessions", response_model=ResponseResult)
 async def get_redis_sessions():

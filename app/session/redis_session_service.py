@@ -5,6 +5,12 @@ from app.infrastructure.common.response_result import ResponseResult
 repository = SQLiteSessionRepository()
 
 
+def create_session(session_name: str, host: str, port: int):
+    repository.add_session(session_name, host, port)
+    result = ResponseResult(result_code=200, result_msg="session added")
+    return result
+
+
 def get_all_sessions():
     try:
         data = repository.get_all()

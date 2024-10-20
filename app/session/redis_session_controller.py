@@ -6,6 +6,13 @@ from app.session import redis_session_service
 router = APIRouter()
 
 
+# 특정 Redis 세션에 ping
+@router.get("/ping/{session_id}", response_model=ResponseResult)
+async def get_redis_session(session_id: int):
+    result = redis_session_service.ping_redis_session(session_id)
+    return result
+
+
 # Redis 세션 추가 엔드포인트
 @router.post("/sessions", response_model=ResponseResult)
 async def create_redis_session(session_name: str, host: str, port: int):

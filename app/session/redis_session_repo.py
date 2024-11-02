@@ -23,7 +23,8 @@ class SQLiteSessionRepository:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             session_name TEXT NOT NULL,
             host TEXT NOT NULL,
-            port INTEGER NOT NULL
+            port INTEGER NOT NULL,
+            status TEXT NULL
         )
         """
         self.connection.execute(query)
@@ -40,7 +41,7 @@ class SQLiteSessionRepository:
     def get_all(self):
         # 모든 세션 가져오기
         cursor = self.connection.cursor()
-        query = "SELECT id, session_name, host, port FROM redis_sessions"
+        query = "SELECT id, session_name, host, port, status FROM redis_sessions"
         cursor.execute(query)
         rows = cursor.fetchall()
         return [RedisSession(id=row[0], session_name=row[1], host=row[2], port=row[3]) for row in rows]

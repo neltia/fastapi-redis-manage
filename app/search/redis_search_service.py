@@ -15,6 +15,7 @@ def search_keys(session_id: int, pattern: str):
 
     if session is None:
         result = ResponseResult(result_code=404)
+        return result
 
     redis_client = Redis(host=session.host, port=session.port)
     keys = redis_client.keys(pattern)

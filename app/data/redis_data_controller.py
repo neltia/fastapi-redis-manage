@@ -16,17 +16,14 @@ async def create_redis_key(session_id: int, key: str, request_data: str):
     return result
 
 
-# 단일 키 데이터 갱신
+# 키 데이터 갱신
 @router.put("", response_model=ResponseResult)
 async def update_redis_key(session_id: int, key: str, request_data: str):
-    if "*" in key:
-        return ResponseResult(result_code=400)
-
     result = redis_data_service.update_key_data(session_id, key, request_data)
     return result
 
 
-# 단일 키 삭제
+# 키 삭제
 @router.delete("", response_model=ResponseResult)
 async def delete_redis_keys(session_id: int, key: str):
     if "*" in key:

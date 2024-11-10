@@ -28,7 +28,7 @@
 
 ## 환경 구성 가이드
 ### VM 설정
-1. irtualbox install
+1. Virtualbox install
 2. vagrant install
 3. vagrant up
 <pre>vagrant up</pre>
